@@ -10,5 +10,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     // put `link.x` in the build directory
     File::create(out_dir.join("link.x"))?.write_all(include_bytes!("link.x"))?;
 
+    cc::Build::new()
+        .no_default_flags(true)
+        .compiler("arm-none-eabi-gcc")
+        .file("src/crt0.s")
+        .compile("crt0");
+    println!("cargo:rerun-if-changed=src/crt0.s");
     Ok(())
 }

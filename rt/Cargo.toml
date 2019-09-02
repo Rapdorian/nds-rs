@@ -3,11 +3,17 @@ name = "nds-rt"
 version = "0.1.0"
 authors = ["James Pruitt <jamescpruitt@gmail.com>"]
 edition = "2018"
+links = "crt0"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 nds-panic = { path = "../panic", optional = true }
+nds-registers = { path = "../registers" }
+
+[build-dependencies]
+cc = "1.0"
 
 [features]
 default = ["panic"]

@@ -1,0 +1,3 @@
+- ASM crt0
+  - Startup code ( call _start and switch to thumb mode )
+  - Vector Handler ( call off to a thumb mode handler )
