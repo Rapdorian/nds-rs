@@ -1,5 +1,5 @@
 pub enum Interrupt {
-    VBlank = 0x01, 
+    VBlank = 0x01,
     HBlank = 0x02,
     VCount = 0x04,
     Timer0 = 0x08,
@@ -22,5 +22,5 @@ pub enum Interrupt {
     Lid = 0x40_0000,
     Spi = 0x80_0000,
     Wifi = 0x100_0000,
-    All = 0x1FF_3FFF
+    All = 0x1FF_3FFF,
 }

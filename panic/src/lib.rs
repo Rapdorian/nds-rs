@@ -7,8 +7,14 @@ use font8x8::{UnicodeFonts, BASIC_FONTS};
 use nds_registers::arm9::*;
 
 fn wait_vblank() {
-    unsafe{
+    unsafe {
         asm!("SWI 0x05");
+    }
+}
+
+fn stop() {
+    unsafe {
+        asm!("SWI 0x06");
     }
 }
 
@@ -37,14 +43,14 @@ impl Write for Console {
     fn write_str(&mut self, s: &str) -> core::fmt::Result {
         static mut X: usize = 0;
         static mut Y: usize = 0;
-        for c in s.chars(){
-            if c == '\n' || (unsafe{X} > 20 && c.is_whitespace() || unsafe{X} >= 32){
+        for c in s.chars() {
+            if c == '\n' || (unsafe { X } > 20 && c.is_whitespace() || unsafe { X } >= 32) {
                 unsafe {
                     X = 0;
                     Y += 1;
                 }
-            }else {
-                unsafe{
+            } else {
+                unsafe {
                     draw_glyph(c, X, Y);
                     X += 1;
                 }
@@ -66,5 +72,10 @@ pub fn panic(panic: &PanicInfo<'_>) -> ! {
 
     writeln!(Console, "{}", panic).unwrap();
     wait_vblank();
-    loop {}
+    unsafe {
+        write_volatile(nds_registers::arm9::IE, 0);
+    }
+    loop {
+        stop();
+    }
 }

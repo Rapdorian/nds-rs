@@ -3,5 +3,6 @@
 members = [
 	"registers",
 	"panic",
-	"rt"
+	"rt",
+	"grit",
 ]

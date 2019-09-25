@@ -12,8 +12,8 @@ pub fn wait_vblank() {
 }
 /// wait for an interrupt
 ///
-/// Continues to wait in Halt state until one (or more) of the 
-/// specified interrupt(s) occur. The function forcefully sets 
+/// Continues to wait in Halt state until one (or more) of the
+/// specified interrupt(s) occur. The function forcefully sets
 /// IME=1. When using multiple interrupts at the same time, this function
 /// has less overhead than repeatedly calling the Halt function.
 pub fn wait(int: Interrupt) {
@@ -21,8 +21,8 @@ pub fn wait(int: Interrupt) {
         asm!("ldr r0, =1
               swi 0x04
               " 
-              : 
-              : "{r1}"(int as u32) 
+              :
+              : "{r1}"(int as u32)
               : "r0"
         );
     }
@@ -61,7 +61,7 @@ pub fn div(num: i32, denom: i32) -> (i32, i32, u32) {
     let quotient;
     let remainder;
     let abs_quotient;
-    unsafe{
+    unsafe {
         asm!("
              swi 0x09"
              : "={r0}"(quotient) "={r1}"(remainder) "={r3}"(abs_quotient)
@@ -75,7 +75,8 @@ pub fn div(num: i32, denom: i32) -> (i32, i32, u32) {
 ///
 /// This is a software sqrt routine,
 /// the NDS9 additionally supports a hardware sqrt.  
-pub fn sqrt(num: u32) -> u16 { let v;
+pub fn sqrt(num: u32) -> u16 {
+    let v;
     unsafe {
         asm!("swi 0x0D"
              : "={r0}"(v)
@@ -89,7 +90,7 @@ pub fn sqrt(num: u32) -> u16 { let v;
 ///
 /// unlike sqrt and division the NDS doesn't have
 /// a hardware atan
-pub fn atan(_num: u16) -> u16{
+pub fn atan(_num: u16) -> u16 {
     unimplemented!();
 }
 
@@ -101,14 +102,13 @@ pub fn atan2(_x: u16, _y: u16) -> u16 {
     unimplemented!();
 }
 
-pub fn reset(){
+pub fn reset() {
     unsafe {
         asm!("SWI 0x00");
     }
 }
 
-
-/// Resets the I/O registers and RAM specified in ResetFlags. 
+/// Resets the I/O registers and RAM specified in ResetFlags.
 ///
 /// | Bit |   Expl.                                                      |
 /// |-----|--------------------------------------------------------------|
@@ -120,7 +120,7 @@ pub fn reset(){
 /// | 5   | Reset SIO registers    ;-switches to general purpose mode!   |
 /// | 6   | Reset Sound registers                                        |
 /// | 7   | Reset all other registers (except SIO, Sound)                |
-pub fn hw_reset(flags: u8){
+pub fn hw_reset(flags: u8) {
     unsafe {
         asm!("SWI 0x01"
              :
@@ -129,7 +129,7 @@ pub fn hw_reset(flags: u8){
     }
 }
 
-pub fn reboot(){
+pub fn reboot() {
     unsafe {
         asm!("SWI 0x26");
     }

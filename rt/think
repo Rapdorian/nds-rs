@@ -1,0 +1,16 @@
+I need to start settling on an API for managing graphics
+
+Ideally, I would eventually have an API that requires very little
+knowledge of specific NDS hardware to use, something like.
+
+```rust
+let lcd = nds::lcd_on();
+
+let mut fb = BufFrameBuffer::new(lcd.top.framebuffer());
+write!(fb, "Hello world");
+
+nds::bios::stop();
+```
+
+I should also sit down and learn how the other NDS video modes work
+so that I can present a unified API
